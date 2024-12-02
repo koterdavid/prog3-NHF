@@ -1,6 +1,5 @@
 package koterdavid;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,9 @@ import java.util.List;
  * in a JTable.
  */
 public class CalendarData extends AbstractTableModel {
-    private List<CalendarEntity> calendarEntities = new ArrayList<CalendarEntity>();
+    private List<CalendarEntity> calendarEntities;
     public CalendarData() {
+        calendarEntities = new ArrayList<>();
     }
 
     public int getRowCount() {
@@ -85,5 +85,27 @@ public class CalendarData extends AbstractTableModel {
         }
     }
 
+    public void add(CalendarEntity calendarEntity){
+        calendarEntities.add(calendarEntity);
+    }
 
+    public CalendarEntity get(int idx){
+        return calendarEntities.get(idx);
+    }
+
+    public int size(){
+        return calendarEntities.size();
+    }
+
+    public boolean isEmpty(){
+        return calendarEntities.isEmpty();
+    }
+
+    public void remove(Object object){
+        calendarEntities.remove(object);
+    }
+
+    public void remove(int idx){
+        calendarEntities.remove(idx);
+    }
 }

@@ -3,13 +3,40 @@ package koterdavid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 
 /**
  * Main application window, consisting of the table view and the forms to add Event and Task
  */
 public class CalendarFrame extends JFrame {
-    JTextField txtName, txtLocation, txtType;
-    JCheckBox chkAllDay;
+    CalendarData calendarData;
+    /*
+     * Declarations of needed form input fields for accessing their data
+     * in the data processing methods:
+     */
+        // Input fields in Event form:
+        JTextField txtEventName;
+        JTextField txtEventLocation;
+        JTextField txtEventType;
+        DateTextField eventBeginDateTextField;
+        JToggleButton tglVisibilityOfEventEndDateTextField;
+        DateTextField eventEndDateTextField;
+        // Buttons in Event form (to access their ActionListeners):
+        JButton btnEventAdd;
+        JButton btnClearNewEventForm;
+
+        // Input fields in Task form:
+        JTextField txtTaskName;
+        JTextField txtTaskLocation;
+        JTextField txtTaskPriority;
+        JToggleButton tglVisibilityOfTaskDeadLineDateTextField;
+        DateTextField taskDeadlineDateTextField;
+        JTextField txtTaskDescription;
+        // Buttons in Task form (to access their ActionListeners):
+        JButton btnTaskAdd;
+        JButton btnClearNewTaskForm;
+
+
     /**
      * Variable to communicate the status
      * of the filtering option toggleable in the MenuBar from
@@ -29,23 +56,20 @@ public class CalendarFrame extends JFrame {
         setName("Calendar - Prog3 NHF Koter Dávid");
         setSize(1200, 750);
         setResizable(true);
+        this.calendarData=calendarData;
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
-        this.add(pnlNorthHalf(calendarData));
-        this.add(pnlSouthHalf(calendarData));
-        menuBar(calendarData, viewFilter);
-
-
+        this.add(pnlNorthHalf());
+        this.add(pnlSouthHalf());
+        menuBar(viewFilter);
         this.pack();
     }
 
     /**
      * Table displaying CalendarEntities in a Table
      *
-     * @param calendarData The CalendarEntity list to display as a table
-     *                     and add CalendarEntities like Events and tasks to.
      * @return The JPanel containing the table
      */
-    private JPanel pnlNorthHalf(CalendarData calendarData){
+    private JPanel pnlNorthHalf(){
         JPanel pnlNorthHalf = new JPanel(new GridLayout(1,0)); //Form to build and then return it
         pnlNorthHalf.setPreferredSize(new Dimension(900,700));
         JTable tblCalendarTable = new JTable(calendarData);
@@ -85,16 +109,16 @@ public class CalendarFrame extends JFrame {
 
     /**
      * Form to add Event or Task
-     * @param calendarData The CalendarEntity list to add CalendarEntities like Events and Tasks to.
+     *
      * @return The JPanel containing the event form on the left side and the task form on the right side
      */
-    public JPanel pnlSouthHalf(CalendarData calendarData){
+    public JPanel pnlSouthHalf(){
         JPanel pnlSouthHalf = new JPanel(); //Form to build and then return it
         pnlSouthHalf.setLayout(new GridLayout(0,2));
         this.add(pnlSouthHalf);
 
-        pnlSouthHalf.add(pnlEventForm(calendarData));
-        pnlSouthHalf.add(pnlTaskForm(calendarData));
+        pnlSouthHalf.add(pnlEventForm());
+        pnlSouthHalf.add(pnlTaskForm());
         return pnlSouthHalf;
     }
 
@@ -104,8 +128,18 @@ public class CalendarFrame extends JFrame {
      * called by the Add event handler after a successful
      * operation
      */
-    class ActionListenerClearNewEventForm implements ActionListener{
+    class ActionListenerClearEventForm implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            txtEventName.setText("");
+            txtEventLocation.setText("");
+            txtEventType.setText("");
+            eventBeginDateTextField.setDate(new Date());
+            tglVisibilityOfEventEndDateTextField.setSelected(true);
+            //Then invoke the ActionListeners to do their thing instead of manual intervention:
+            for(ActionListener a: tglVisibilityOfEventEndDateTextField.getActionListeners()){
+                a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+            }
+            eventEndDateTextField.setDate(new Date());
         }
     }
 
@@ -124,43 +158,67 @@ public class CalendarFrame extends JFrame {
      */
     class ActionListenerAddNewEvent implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            Event event = new Event(
+                    txtEventName.getText(),
+                    txtEventLocation.getText(),
+                    txtEventType.getText(),
+                    false, //TODO
+                    eventBeginDateTextField.getDate(),
+                    eventEndDateTextField.isVisible() ? eventEndDateTextField.getDate() : null
+            );
+            calendarData.add(event);
+            //Clear form through the ActionListener of the Clear Form button:
+            for(ActionListener a: btnClearNewEventForm.getActionListeners()){
+                a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+            }
         }
     }
 
     /**
      * Form to add new event
      */
-    public JPanel pnlEventForm(CalendarData calendarData){
+    public JPanel pnlEventForm(){
         JPanel pnlEventForm = new JPanel(); //Form to build and then return it
         pnlEventForm.setLayout(new GridLayout(0,2)); //Organize fields and their labels vertically
         JLabel lblEventName = new JLabel("Event name: ");
         pnlEventForm.add(lblEventName);
-        JTextField txtEventName = new JTextField(20);
+        /*JTextField*/ txtEventName = new JTextField(20);
         pnlEventForm.add(txtEventName);
         JLabel lblEventLocation = new JLabel("Event location: ");
         pnlEventForm.add(lblEventLocation);
-        JTextField txtEventLocation = new JTextField(20);
+        /*JTextField*/ txtEventLocation = new JTextField(20);
         pnlEventForm.add(txtEventLocation);
         JLabel lblEventType = new JLabel("Event type: ");
         pnlEventForm.add(lblEventType);
-        JTextField txtEventType = new JTextField(20);
+        /*JTextField*/ txtEventType = new JTextField(20);
         pnlEventForm.add(txtEventType);
         JLabel lblEventBegin = new JLabel("Event begin date (required): ");
         pnlEventForm.add(lblEventBegin);
-        DateTextField eventBeginDateTextField = new DateTextField();
+        /*DateTextField*/ eventBeginDateTextField = new DateTextField();
         pnlEventForm.add(eventBeginDateTextField);
-        JLabel lblEventEnd = new JLabel("Event end date (optional): ");
-        pnlEventForm.add(lblEventEnd);
-        DateTextField eventEndDateTextField = new DateTextField();
-        pnlEventForm.add(eventEndDateTextField);
-        JButton btnEventAdd = new JButton("Add event");
+        { //Event end date toggle and selector
+            // If eventEndDateTextField is visible, it is considered set.
+            // The following Toggle Button toggles its visibility in the form.
+            /*JToggleButton*/ tglVisibilityOfEventEndDateTextField = new JToggleButton("Event end date (optional): ", true);
+            pnlEventForm.add(tglVisibilityOfEventEndDateTextField, true);
+            /*DateTextField*/ eventEndDateTextField = new DateTextField();
+            pnlEventForm.add(eventEndDateTextField);
+            tglVisibilityOfEventEndDateTextField.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        //if button is selected, show it, if not selected, don't show it:
+                        eventEndDateTextField.setVisible( tglVisibilityOfEventEndDateTextField.isSelected() );
+                    }
+                }
+            );
+        }
+        /*JButton*/ btnEventAdd = new JButton("Add event");
         pnlEventForm.add(btnEventAdd);
         ActionListenerAddNewEvent actionListenerAddNewEvent = new ActionListenerAddNewEvent();
         btnEventAdd.addActionListener(actionListenerAddNewEvent);
-        JButton btnClearNewEventForm = new JButton("Clear event form");
+        /*JButton*/ btnClearNewEventForm = new JButton("Clear event form");
         pnlEventForm.add(btnClearNewEventForm);
-        ActionListenerClearNewEventForm actionListenerClearNewEventForm = new ActionListenerClearNewEventForm();
-        btnClearNewEventForm.addActionListener(actionListenerClearNewEventForm);
+        ActionListenerClearEventForm actionListenerClearEventForm = new ActionListenerClearEventForm();
+        btnClearNewEventForm.addActionListener(actionListenerClearEventForm);
         return pnlEventForm;
     }
 
@@ -170,11 +228,21 @@ public class CalendarFrame extends JFrame {
      * called by the Add task handler after a successful
      * operation
      */
-    class ActionListenerClearNewTaskForm implements ActionListener{
+    class ActionListenerClearTaskForm implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            txtTaskName.setText("");
+            txtTaskLocation.setText("");
+            txtTaskPriority.setText("");
+            tglVisibilityOfTaskDeadLineDateTextField.setSelected(true);
+            //Then invoke the ActionListeners to do their thing instead of manual intervention:
+            for(ActionListener a: tglVisibilityOfTaskDeadLineDateTextField.getActionListeners()){
+                a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+            }
+            taskDeadlineDateTextField.setDate(new Date());
+            txtTaskDescription.setText("");
         }
     }
-    ActionListenerClearNewTaskForm actionListenerClearNewTaskForm = new ActionListenerClearNewTaskForm();
+
 
     /**
      * Button event handler
@@ -191,35 +259,45 @@ public class CalendarFrame extends JFrame {
      */
     class ActionListenerAddNewTask implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            Task task = new Task(
+                    txtTaskName.getText(),
+                    txtTaskLocation.getText(),
+                    txtTaskPriority.getText(),
+                    taskDeadlineDateTextField.isVisible() ? taskDeadlineDateTextField.getDate() : null,
+                    txtTaskDescription.getText()
+            );
+            calendarData.add(task);
+            //Clear form through the ActionListener of the Clear Form button:
+            for(ActionListener a: btnClearNewTaskForm.getActionListeners()){
+                a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+            }
         }
     }
 
     /**
      * Form to add new task.
      */
-    public JPanel pnlTaskForm(CalendarData calendarData){
+    public JPanel pnlTaskForm(){
         JPanel pnlTaskForm = new JPanel(); //Form to build and then return it
         pnlTaskForm.setLayout(new GridLayout(0,2)); //Organize fields and their labels vertically
         JLabel lblTaskName = new JLabel("Task name: ");
         pnlTaskForm.add(lblTaskName);
-        JTextField txtTaskField = new JTextField(20);
-        pnlTaskForm.add(txtTaskField);
+        /*JTextField*/ txtTaskName = new JTextField(20);
+        pnlTaskForm.add(txtTaskName);
         JLabel lblTaskLocation = new JLabel("Task location: ");
         pnlTaskForm.add(lblTaskLocation);
-        JTextField txtTaskLocation = new JTextField(20);
+        /*JTextField*/ txtTaskLocation = new JTextField(20);
         pnlTaskForm.add(txtTaskLocation);
         JLabel lblTaskPriority = new JLabel("Task priority: ");
         pnlTaskForm.add(lblTaskPriority);
-        JTextField txtTaskPriority = new JTextField(10);
+        /*JTextField*/ txtTaskPriority = new JTextField(10);
         pnlTaskForm.add(txtTaskPriority);
-        //JLabel lblTaskDeadline = new JLabel("Task deadline (optional): ");
-        //pnlTaskForm.add(lblTaskDeadline);
         { //Task Deadline toggle and selector
             // If taskDeadlineDateTextField is visible, it is considered set.
             // The following Toggle Button toggles its visibility in the form.
-            JToggleButton tglVisibilityOfTaskDeadLineDateTextField = new JToggleButton("Task has deadline", true);
+            /*JToggleButton*/ tglVisibilityOfTaskDeadLineDateTextField = new JToggleButton("Task has deadline", true);
             pnlTaskForm.add(tglVisibilityOfTaskDeadLineDateTextField);
-            DateTextField taskDeadlineDateTextField = new DateTextField();
+            /*DateTextField*/ taskDeadlineDateTextField = new DateTextField();
             pnlTaskForm.add(taskDeadlineDateTextField);
             tglVisibilityOfTaskDeadLineDateTextField.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -234,23 +312,23 @@ public class CalendarFrame extends JFrame {
         //Still, a larger text area would be ideal
         //JTextArea txaTaskDescription = new JTextArea(10, 50);
         //pnlTaskForm.add(txaTaskDescription);
-        JTextField txtTaskDescription = new JTextField("20");
+        /*JTextField*/ txtTaskDescription = new JTextField(20);
         pnlTaskForm.add(txtTaskDescription);
-        JButton btnTaskAdd = new JButton("Add task");
+        /*JButton*/ btnTaskAdd = new JButton("Add task");
         pnlTaskForm.add(btnTaskAdd);
         ActionListenerAddNewTask actionListenerAddNewTask = new ActionListenerAddNewTask();
         btnTaskAdd.addActionListener(actionListenerAddNewTask);
-        JButton btnClearNewTaskForm = new JButton("Clear task form");
+        /*JButton*/ btnClearNewTaskForm = new JButton("Clear task form");
         pnlTaskForm.add(btnClearNewTaskForm);
-        btnClearNewTaskForm.addActionListener(actionListenerClearNewTaskForm);
+        ActionListenerClearTaskForm actionListenerClearTaskForm = new ActionListenerClearTaskForm();
+        btnClearNewTaskForm.addActionListener(actionListenerClearTaskForm);
         return pnlTaskForm;
     }
 
     /**
-     * @param calendarData The data to save and load
      * @param viewFilter {@link CalendarFrame#viewFilter}
      */
-    public void menuBar(CalendarData calendarData, boolean viewFilter){
+    public void menuBar(boolean viewFilter){
 
         JMenuBar mnuCalendarMenuBar = new JMenuBar();
         this.setJMenuBar(mnuCalendarMenuBar);
