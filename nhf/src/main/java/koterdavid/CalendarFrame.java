@@ -3,6 +3,8 @@ package koterdavid;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -140,7 +142,7 @@ public class CalendarFrame extends JFrame {
                 a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
             eventEndDateTextField.setDate(new Date());
-            calendarData.fireTableDataChanged();
+            calendarData.fireTableDataChanged(); //Notify Table about data change
         }
     }
 
@@ -272,7 +274,7 @@ public class CalendarFrame extends JFrame {
             for(ActionListener a: btnClearNewTaskForm.getActionListeners()){
                 a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
-            calendarData.fireTableDataChanged();
+            calendarData.fireTableDataChanged(); //Notify Table about data change
         }
     }
 
@@ -328,6 +330,37 @@ public class CalendarFrame extends JFrame {
     }
 
     /**
+     * Serializes the whole calendarData into a file
+     */
+    class ActionListenerMenuBarSave implements ActionListener{
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Calendar-data-file.dat"));
+                oos.writeObject(calendarData.getCalendarEntities());
+                oos.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    class ActionListenerMenuBarLoad implements ActionListener{
+        public void actionPerformed(ActionEvent e) {
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Calendar-data-file.dat"));
+                ArrayList<CalendarEntity> list = (ArrayList<CalendarEntity>) ois.readObject();
+                calendarData.setCalendarEntities(list);
+                ois.close();
+                calendarData.fireTableDataChanged(); //Notify Table about data change
+            } catch(FileNotFoundException ex){
+                //TODO: some kind of file not found notification
+            } catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * @param viewFilter {@link CalendarFrame#viewFilter}
      */
     public void menuBar(boolean viewFilter){
@@ -342,7 +375,9 @@ public class CalendarFrame extends JFrame {
         mnuCalendarViewMenu.add(mniShowFutureOnlyInTableView);
         JMenuItem mniSaveCalendarData = new JMenuItem("Save...");
         mnuCalendarFileMenu.add(mniSaveCalendarData);
+        mniSaveCalendarData.addActionListener(new ActionListenerMenuBarSave());
         JMenuItem mniLoadCalendarData = new JMenuItem("Load...");
         mnuCalendarFileMenu.add(mniLoadCalendarData);
+        mniLoadCalendarData.addActionListener(new ActionListenerMenuBarLoad());
     }
 }

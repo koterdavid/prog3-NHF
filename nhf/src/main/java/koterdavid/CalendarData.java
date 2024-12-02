@@ -1,6 +1,7 @@
 package koterdavid;
 
 import javax.swing.table.AbstractTableModel;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Also provides a direct interface for displaying the contents of this list
  * in a JTable.
  */
-public class CalendarData extends AbstractTableModel {
+public class CalendarData extends AbstractTableModel implements Serializable {
     private List<CalendarEntity> calendarEntities;
     public CalendarData() {
         calendarEntities = new ArrayList<>();
@@ -91,6 +92,24 @@ public class CalendarData extends AbstractTableModel {
 
     public CalendarEntity get(int idx){
         return calendarEntities.get(idx);
+    }
+
+    /**
+     * Returns the list of CalendarEntities directly.
+     * Needed for serialization, because an AbstractTableModel cannot be serialized,
+     * as it is a Swing object containing internal pointers.
+     */
+    public List<CalendarEntity> getCalendarEntities(){
+        return calendarEntities;
+    }
+
+    /**
+     * Overwrites the list of CalendarEntities directly.
+     * Needed for deserialization, because an AbstractTableModel cannot be deserialized,
+     * as it is a Swing object containing internal pointers.
+     */
+    public void setCalendarEntities(List<CalendarEntity> list){
+        calendarEntities = list;
     }
 
     public int size(){
