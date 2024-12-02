@@ -3,7 +3,7 @@ package koterdavid;
 import java.io.Serializable;
 
 /**
- * Abstract parent class for Event and Task, to possibly store them in a heterogeneous list
+ * Abstract parent class for Event and Task for storing them in heterogeneous lists
  * <p>
  * Contains the shared attributes name and location
  */

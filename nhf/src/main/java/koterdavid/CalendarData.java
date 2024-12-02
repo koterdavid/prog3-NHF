@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A database class, storing a heterogeneous list of CalendarEntity-es,
- * for example Event-s and Task-s
+ * A database class, storing a heterogeneous list of CalendarEntities,
+ * for example Events and Tasks
  * <p>
  * Also provides a direct interface for displaying the contents of this list
  * in a JTable.

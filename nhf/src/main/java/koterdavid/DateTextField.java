@@ -33,10 +33,11 @@ import javax.swing.event.ChangeListener;
 
 
 /**
- * @source https://stackoverflow.com/questions/11736878/display-calendar-to-pick-a-date-in-java/11739037#11739037
+ * Provides a simple Date picker.
+ * <p>
+ * source: https://stackoverflow.com/questions/11736878/display-calendar-to-pick-a-date-in-java/11739037#11739037
  * @author https://stackoverflow.com/users/1392842/liu-guanghua
  *
- * Provides a simple Date picker.
  */
 public class DateTextField extends JTextField {
 
