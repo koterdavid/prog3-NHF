@@ -91,16 +91,16 @@ public class CalendarFrame extends JFrame {
             //Currently resizing does not seem to work as it should
             tblCalendarTable.getColumnModel().getColumn(0).setMinWidth(60);
             tblCalendarTable.getColumnModel().getColumn(1).setMinWidth(60);
-            tblCalendarTable.getColumnModel().getColumn(2).setMinWidth(30);
+            tblCalendarTable.getColumnModel().getColumn(2).setMinWidth(10);
             tblCalendarTable.getColumnModel().getColumn(3).setMinWidth(10);
             tblCalendarTable.getColumnModel().getColumn(4).setMinWidth(40);
             tblCalendarTable.getColumnModel().getColumn(5).setMinWidth(40);            tblCalendarTable.getColumnModel().getColumn(0).setMinWidth(30);
             tblCalendarTable.getColumnModel().getColumn(0).setPreferredWidth(100);
             tblCalendarTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblCalendarTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tblCalendarTable.getColumnModel().getColumn(2).setPreferredWidth(20);
             tblCalendarTable.getColumnModel().getColumn(3).setPreferredWidth(40);
-            tblCalendarTable.getColumnModel().getColumn(4).setPreferredWidth(100);
-            tblCalendarTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+            tblCalendarTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tblCalendarTable.getColumnModel().getColumn(5).setPreferredWidth(120);
             tblCalendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         }
 
@@ -140,6 +140,7 @@ public class CalendarFrame extends JFrame {
                 a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
             eventEndDateTextField.setDate(new Date());
+            calendarData.fireTableDataChanged();
         }
     }
 
@@ -271,6 +272,7 @@ public class CalendarFrame extends JFrame {
             for(ActionListener a: btnClearNewTaskForm.getActionListeners()){
                 a.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
             }
+            calendarData.fireTableDataChanged();
         }
     }
 
