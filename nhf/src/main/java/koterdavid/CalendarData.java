@@ -97,7 +97,7 @@ public class CalendarData extends AbstractTableModel implements Serializable {
     /**
      * Returns the list of CalendarEntities directly.
      * Needed for serialization, because an AbstractTableModel cannot be serialized,
-     * as it is a Swing object containing internal pointers.
+     * as it is a Swing object containing references used by internal mechanisms.
      */
     public List<CalendarEntity> getCalendarEntities(){
         return calendarEntities;
@@ -106,7 +106,7 @@ public class CalendarData extends AbstractTableModel implements Serializable {
     /**
      * Overwrites the list of CalendarEntities directly.
      * Needed for deserialization, because an AbstractTableModel cannot be deserialized,
-     * as it is a Swing object containing internal pointers.
+     * as it is a Swing object containing references used by internal mechanisms.
      */
     public void setCalendarEntities(List<CalendarEntity> list){
         calendarEntities = list;

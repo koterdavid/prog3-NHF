@@ -1,7 +1,8 @@
 package koterdavid;
 
 /**
- * Invokes CalendarFrame, does no real data handling
+ * Invokes CalendarFrame and provides it with an empty CalendarData,
+ * does no real data handling
  */
 public class Main {
     public static void main(String[] args) {

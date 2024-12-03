@@ -44,7 +44,7 @@ public class CalendarFrame extends JFrame {
      * of the filtering option toggleable in the MenuBar from
      * the MenuBar to the JTable in the northHalf.
      */
-    boolean viewFilter=false;
+    boolean viewFilter;
 
     /**
      * The main window of the application, split into
@@ -56,9 +56,11 @@ public class CalendarFrame extends JFrame {
     public CalendarFrame(CalendarData calendarData){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setName("Calendar - Prog3 NHF Koter Dávid");
+        setTitle("Calendar - Prog3 NHF Koter Dávid");
         setSize(1200, 750);
         setResizable(true);
         this.calendarData=calendarData;
+        this.viewFilter=false;
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(pnlNorthHalf());
         this.add(pnlSouthHalf());
@@ -165,7 +167,7 @@ public class CalendarFrame extends JFrame {
                     txtEventName.getText(),
                     txtEventLocation.getText(),
                     txtEventType.getText(),
-                    false, //TODO
+                    true,
                     eventBeginDateTextField.getDate(),
                     eventEndDateTextField.isVisible() ? eventEndDateTextField.getDate() : null
             );
@@ -330,7 +332,9 @@ public class CalendarFrame extends JFrame {
     }
 
     /**
-     * Serializes the whole calendarData into a file
+     * Serializes the arraylist of calendarData into a file,
+     * because the AbstractTableModel as a whole  cannot be serialized,
+     * as it is a Swing object containing references used by internal mechanisms.
      */
     class ActionListenerMenuBarSave implements ActionListener{
         public void actionPerformed(ActionEvent e) {
@@ -344,6 +348,11 @@ public class CalendarFrame extends JFrame {
         }
     }
 
+    /**
+     * Deserializes the arraylist of calendarData from a file,
+     * because the AbstractTableModel as a whole  cannot be deserialized,
+     * as it is a Swing object containing references used by internal mechanisms.
+     */
     class ActionListenerMenuBarLoad implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             try {
@@ -353,7 +362,8 @@ public class CalendarFrame extends JFrame {
                 ois.close();
                 calendarData.fireTableDataChanged(); //Notify Table about data change
             } catch(FileNotFoundException ex){
-                //TODO: some kind of file not found notification
+                System.out.println("File to load not found");
+                //TODO: some kind of file not found notification in GUI
             } catch (Exception ex){
                 ex.printStackTrace();
             }
@@ -380,4 +390,5 @@ public class CalendarFrame extends JFrame {
         mnuCalendarFileMenu.add(mniLoadCalendarData);
         mniLoadCalendarData.addActionListener(new ActionListenerMenuBarLoad());
     }
+
 }
