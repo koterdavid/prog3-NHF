@@ -363,10 +363,15 @@ public class CalendarFrame extends JFrame {
                 calendarData.fireTableDataChanged(); //Notify Table about data change
             } catch(FileNotFoundException ex){
                 System.out.println("File to load not found");
-                //TODO: some kind of file not found notification in GUI
             } catch (Exception ex){
                 ex.printStackTrace();
             }
+        }
+    }
+
+    class ActionListenerMenuBarToggleFilter implements ActionListener{
+        public void actionPerformed(ActionEvent e) {
+            //TODO: rowfilter the Table
         }
     }
 

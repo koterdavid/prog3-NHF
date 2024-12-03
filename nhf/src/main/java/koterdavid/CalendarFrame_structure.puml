@@ -1,0 +1,263 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "koterdavid.CalendarFrame",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1441579935 { 
+   	label=DateTextField
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   DatePanel496811592[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DatePanel</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   backGroundColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   controlLineColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   controlTextColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   dateFontColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   daysButton: JButton[][] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   lastYear: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   monthSpin: JSpinner [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   palletTableColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   startYear: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   todayBackColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   weekFontColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   weekendFontColor: Color [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   yearSpin: JSpinner [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createWeekAndDayPanal(): JPanel</TD></TR>
+<TR><TD ALIGN="LEFT" >- createYearAndMonthPanal(): JPanel</TD></TR>
+<TR><TD ALIGN="LEFT" >- dayColorUpdate(isOldDay: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >- reflushWeekAndDay()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ stateChanged(e: ChangeEvent)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_494117975 { 
+   	label=koterdavid
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   CalendarData494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CalendarData</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   calendarEntities: List&lt;CalendarEntity&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(calendarEntity: CalendarEntity)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ get(idx: int): CalendarEntity</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getColumnName(column: int): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getValueAt(rowIndex: int, columnIndex: int): Object</TD></TR>
+<TR><TD ALIGN="LEFT" >+ remove(object: Object)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ remove(idx: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ size(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CalendarEntity494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CalendarEntity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   location: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   name: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CalendarFrame494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CalendarFrame</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   btnClearNewEventForm: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   btnClearNewTaskForm: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   btnEventAdd: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   btnTaskAdd: JButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   calendarData: CalendarData [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   eventBeginDateTextField: DateTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   eventEndDateTextField: DateTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   taskDeadlineDateTextField: DateTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tglVisibilityOfEventEndDateTextField: JToggleButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tglVisibilityOfTaskDeadLineDateTextField: JToggleButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtEventLocation: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtEventName: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtEventType: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtTaskDescription: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtTaskLocation: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtTaskName: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   txtTaskPriority: JTextField [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   viewFilter: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ menuBar(viewFilter: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pnlEventForm(): JPanel</TD></TR>
+<TR><TD ALIGN="LEFT" >- pnlNorthHalf(): JPanel</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pnlSouthHalf(): JPanel</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pnlTaskForm(): JPanel</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DateTextField494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DateTextField</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dateDialog: JDialog [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   dateFormat: SimpleDateFormat [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   datePanel: DatePanel [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addListeners()</TD></TR>
+<TR><TD ALIGN="LEFT" >- createDateDialog(owner: Frame, contentPanel: JPanel): JDialog</TD></TR>
+<TR><TD ALIGN="LEFT" >- getAppropriateLocation(owner: Frame, position: Point): Point</TD></TR>
+<TR><TD ALIGN="LEFT" >- showDateDialog(dateChooser: DatePanel, position: Point)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Event494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Event</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   allDay: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   begin: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   end: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   type: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Task494117975[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Task</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   deadline: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   description: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   priority: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+CalendarData494117975 -> CalendarEntity494117975[label="calendarEntities
+[0..*]"];
+CalendarEntity494117975 -> Event494117975[arrowhead=none, arrowtail=empty, dir=both];
+CalendarEntity494117975 -> Task494117975[arrowhead=none, arrowtail=empty, dir=both];
+CalendarFrame494117975 -> CalendarData494117975[label="calendarData
+[0..1]"];
+CalendarFrame494117975 -> DateTextField494117975[label="eventBeginDateTextField
+[0..1]"];
+CalendarFrame494117975 -> DateTextField494117975[label="eventEndDateTextField
+[0..1]"];
+CalendarFrame494117975 -> DateTextField494117975[label="taskDeadlineDateTextField
+[0..1]"];
+DateTextField494117975 -> DatePanel496811592[label="datePanel
+[0..1]"];
+    
+}
+@enduml
