@@ -12,7 +12,7 @@ import java.util.List;
  * Also provides a direct interface for displaying the contents of this list
  * in a JTable.
  */
-public class CalendarData extends AbstractTableModel implements Serializable {
+public class CalendarData extends AbstractTableModel{
     private List<CalendarEntity> calendarEntities;
     public CalendarData() {
         calendarEntities = new ArrayList<>();

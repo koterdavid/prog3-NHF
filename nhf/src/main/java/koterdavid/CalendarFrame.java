@@ -1,6 +1,8 @@
 package koterdavid;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -37,6 +39,9 @@ public class CalendarFrame extends JFrame {
         // Buttons in Task form (to access their ActionListeners):
         JButton btnTaskAdd;
         JButton btnClearNewTaskForm;
+        //Search TextField
+        JTextField txtSearch;
+        TableRowSorter<TableModel> rowSorter;
 
 
     /**
@@ -98,7 +103,8 @@ public class CalendarFrame extends JFrame {
             tblCalendarTable.getColumnModel().getColumn(2).setMinWidth(10);
             tblCalendarTable.getColumnModel().getColumn(3).setMinWidth(10);
             tblCalendarTable.getColumnModel().getColumn(4).setMinWidth(40);
-            tblCalendarTable.getColumnModel().getColumn(5).setMinWidth(40);            tblCalendarTable.getColumnModel().getColumn(0).setMinWidth(30);
+            tblCalendarTable.getColumnModel().getColumn(5).setMinWidth(40);
+            tblCalendarTable.getColumnModel().getColumn(0).setMinWidth(30);
             tblCalendarTable.getColumnModel().getColumn(0).setPreferredWidth(100);
             tblCalendarTable.getColumnModel().getColumn(1).setPreferredWidth(100);
             tblCalendarTable.getColumnModel().getColumn(2).setPreferredWidth(20);
@@ -106,6 +112,12 @@ public class CalendarFrame extends JFrame {
             tblCalendarTable.getColumnModel().getColumn(4).setPreferredWidth(120);
             tblCalendarTable.getColumnModel().getColumn(5).setPreferredWidth(120);
             tblCalendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+
+            //Row sorter, used for filtering rows.
+            //The exact RowFilter is set in
+            /*TableRowSorter<TableModel>*/ rowSorter = new TableRowSorter<>(tblCalendarTable.getModel());
+            tblCalendarTable.setRowSorter(rowSorter);
+
         }
 
         return pnlNorthHalf;
@@ -123,6 +135,20 @@ public class CalendarFrame extends JFrame {
 
         pnlSouthHalf.add(pnlEventForm());
         pnlSouthHalf.add(pnlTaskForm());
+        //Search by name:
+        txtSearch = new JTextField(20);
+        txtSearch.setMaximumSize(getPreferredSize());
+        txtSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String searchText = txtSearch.getText();
+                rowSorter.setRowFilter(RowFilter.regexFilter(searchText));
+            }
+        });
+        //The field needs a JPanel with FlowLayout to not fill the whole area:
+        JPanel pnlSearch = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pnlSearch.add(new JLabel("Regex search in every attribute:"));
+        pnlSearch.add(txtSearch);
+        pnlSouthHalf.add(pnlSearch);
         return pnlSouthHalf;
     }
 
@@ -371,7 +397,7 @@ public class CalendarFrame extends JFrame {
 
     class ActionListenerMenuBarToggleFilter implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //TODO: rowfilter the Table
+
         }
     }
 
